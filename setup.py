@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 setup(
-    name='libs-tools',
-    packages=find_packages(include=['libs-tools']),
+    name='libs_tools',
+    packages=find_packages(include=['libs_tools']),
     version='0.1.0',
     description='Commonly used tools for LIBS analysis',
     author='PN',
