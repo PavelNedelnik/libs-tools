@@ -20,16 +20,16 @@ def plot_spectra(
     go.Scatter.
 
         Args:
-            spectra     (np.ndarray): 2d array. each row corresponds to a single spectrum.
-            calibration (None | np.array, optional): measured wavelengths. Defaults to None.
-            title       (None | str, optional): figure title. Defaults to None.
-            labels      (None | list[str], optional): labels for each spectrum. Defaults to None.
-            colormap    (None | list, optional): colormap. Defaults to cl.scales['12']['qual']['Paired'].
-            axis_titles (bool, optional): whether to auto generate axis titles. to generate titles 
-                manually, use the <go.Figure.update_layout> method
+            spectra     (np.ndarray): 2d array. Each row corresponds to a single spectrum.
+            calibration (None | np.array, optional): Measured wavelengths. Defaults to None.
+            title       (None | str, optional): Figure title. Defaults to None.
+            labels      (None | list[str], optional): Labels for each spectrum. Defaults to None.
+            colormap    (None | list, optional): Colormap. Defaults to cl.scales['12']['qual']['Paired'].
+            axis_titles (bool, optional): Whether to auto generate axis titles. To generate titles 
+                manually, use the <go.Figure.update_layout> method.
 
         Returns:
-            go.Figure: line plot of given spectra"""
+            go.Figure: Line plot of given spectra."""
     if calibration is None:
         calibration = np.arange(len(spectra[0]))
     if labels is None:
