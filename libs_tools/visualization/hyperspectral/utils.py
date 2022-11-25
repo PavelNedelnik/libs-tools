@@ -1,7 +1,6 @@
 import numpy as np
 import plotly.graph_objects as go
 from enum import Enum, auto
-from libs_tools.metrics.rowwise import rowwise_cosine
 
 # TODO make_map sucks!
 # TODO check if make_map modifies values
@@ -78,7 +77,8 @@ def plot_map(
         Args:
             values     (np.ndarray): 2d spectra matrix.
             dim        (tuple[int, int]): Map dimensions.
-            index_type (IndexType, optional): Defines the index -> 2d space mapping. See <IndexType> class.
+            index_type (IndexType, optional): Defines the index -> 2d space mapping. See <IndexType>
+                class. Defaults to IndexType.HORIZONTAL.
             title      (None | str, optional): Figure title. Defaults to None.
 
         Returns:
@@ -97,52 +97,3 @@ def plot_map(
     )
 
     return fig
-
-
-def error_map(y_true: np.ndarray,                                             
-              y_pred: np.ndarray,
-              dim: tuple[int, int],                                            
-              index_type: IndexType=IndexType.HORIZONTAL, 
-              rowwise_error: callable[[np.ndarray, np.ndarray], np.array]=rowwise_cosine,                                          
-              title: Optional[str]=None,                                                                                    
-              add_stats: bool=False,
-              *args,
-              **kwargs                                         
-              ):
-  values = rowwise_error(y_true, y_pred)
-
-  if add_stats:
-    if not title:
-      title = ''
-    title += ' (avg: {}, min: {}, max: {})'.format(np.mean(values), np.min(values), np.max(values))
-
-  return plot_map(values, dim, index_type, *args, **kwargs)
-
-
-def intensity_map(spectra: np.array,
-                  dim: Tuple[int, int],                                            
-                  index_type: IndexType=IndexType.HORIZONTAL,                                  
-                  start: Optional[T]=None,                                 
-                  end: Optional[T]=None,                                   
-                  calibration: Optional[Iterable[T]]=None,
-                  *args,
-                  **kwargs
-                  ):
-  values = spectra_intensity(spectra, start, end, calibration)
-
-  return plot_map(values, dim, index_type, *args, **kwargs)
-
-
-def spectra_intensity(spectra: np.array,                                     
-                      start: Optional[T]=None,                                 
-                      end: Optional[T]=None,                                   
-                      calibration: Optional[Iterable[T]]=None,                 
-                      ) -> Iterable[float]:
-    if calibration is None:
-      calibration = np.arange(spectra.shape[0])
-    if start is None:
-      start = calibration[0]
-    if end is None:
-      end = calibration[-1]
-
-    return np.sum(LabelCropp(label_from=start, label_to=end, labels=calibration).fit_transform(spectra), axis=1)
